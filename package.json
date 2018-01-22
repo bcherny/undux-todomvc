@@ -1,0 +1,40 @@
+{
+  "name": "undux-todomvc",
+  "version": "1.0.0",
+  "description": "TodoMVC for Undux",
+  "main": "src/index.tsx",
+  "repository": "git@github.com:bcherny/undux-todomvc.git",
+  "author": "Boris Cherny <boris@performancejs.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "npm run clean && webpack && npm run copy",
+    "build:watch": "webpack -w",
+    "clean": "rm -rf dist",
+    "copy": "cp src/index.html dist/index.html && cp node_modules/todomvc-common/base.css dist/base.css && cp node_modules/todomvc-app-css/index.css dist/index.css && cp node_modules/todomvc-common/base.js dist/base.js",
+    "start": "webpack-dev-server",
+    "watch": "npm run build && concurrently -k 'npm run build:watch' 'npm run start'"
+  },
+  "dependencies": {
+    "@types/classnames": "^2.2.3",
+    "@types/lodash": "^4.14.93",
+    "@types/react": "^16.0.34",
+    "@types/react-dom": "^16.0.3",
+    "classnames": "^2.2.5",
+    "lodash": "^4.17.4",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "todomvc-app-css": "^2.1.0",
+    "todomvc-common": "^1.0.4",
+    "undux": "^3.0.4"
+  },
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.4.1",
+    "concurrently": "^3.5.1",
+    "source-map-loader": "^0.2.3",
+    "tslint": "^5.9.1",
+    "tslint-react": "^3.4.0",
+    "typescript": "^2.6.2",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.1"
+  }
+}
