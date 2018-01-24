@@ -28,11 +28,6 @@ export let App = withStore()(class extends React.Component<StoreProps> {
     </React.Fragment>
   }
 
-  onClearCompleted = () =>
-    this.props.store.set('todos')(
-      this.props.store.get('todos').filter(_ => _.status !== 'completed')
-    )
-
   onDestroy = (todo: Todo) => {
     this.props.store.set('todos')(
       without(this.props.store.get('todos'), todo)

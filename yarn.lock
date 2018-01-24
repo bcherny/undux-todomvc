@@ -3713,9 +3713,9 @@ uid-number@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/uid-number/-/uid-number-0.0.6.tgz#0ea10e8035e8eb5b8e4449f06da1c730663baa81"
 
-undux@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/undux/-/undux-3.0.4.tgz#6dad80b3769b9a340a31715d291db52135201ed2"
+undux@^3.0.7:
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/undux/-/undux-3.0.7.tgz#917ee41cf0f097bd93d26522cab6830fa4f6f0d2"
   dependencies:
     typed-rx-emitter "^0.3.0"
 
