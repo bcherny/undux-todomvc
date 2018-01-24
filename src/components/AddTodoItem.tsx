@@ -1,22 +1,23 @@
 import * as React from 'react'
 import { ENTER } from '../constants/KEYCODES'
-import { Store, withStore } from '../store'
+import { StoreProps, withStore } from '../store'
 import { Input } from './Input'
 
-export let AddTodoItem = withStore('addTodoTitle')(({ store }) =>
-  <Input
-    autoFocus={true}
-    className='new-todo'
-    onChange={store.set('addTodoTitle')}
-    onKeyDown={onKeyDown(store)}
-    placeholder='What needs to be done?'
-    value={store.get('addTodoTitle')}
-  />
-)
+export let AddTodoItem = withStore('addTodoTitle')(class extends React.Component<StoreProps> {
 
-let onKeyDown =
-  (store: Store) =>
-  (keyCode: number) => {
+  render() {
+    return <Input
+      autoFocus={true}
+      className='new-todo'
+      onChange={this.props.store.set('addTodoTitle')}
+      onKeyDown={this.onKeyDown}
+      placeholder='What needs to be done?'
+      value={this.props.store.get('addTodoTitle')}
+    />
+  }
+
+  onKeyDown = (keyCode: number) => {
+    let { store } = this.props
     switch (keyCode) {
       case ENTER:
         let title = store.get('addTodoTitle')
@@ -29,3 +30,5 @@ let onKeyDown =
         }
     }
   }
+
+})
