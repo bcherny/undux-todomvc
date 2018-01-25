@@ -9,8 +9,8 @@
   "scripts": {
     "build": "npm run clean && webpack && npm run copy",
     "build:watch": "webpack -w",
-    "clean": "rm -rf dist",
-    "copy": "cp src/index.html dist/index.html && cp node_modules/todomvc-common/base.css dist/base.css && cp node_modules/todomvc-app-css/index.css dist/index.css && cp node_modules/todomvc-common/base.js dist/base.js",
+    "clean": "shx rm -rf dist",
+    "copy": "shx cp src/index.html dist/index.html && shx cp node_modules/todomvc-common/base.css dist/base.css && shx cp node_modules/todomvc-app-css/index.css dist/index.css && shx cp node_modules/todomvc-common/base.js dist/base.js",
     "start": "webpack-dev-server",
     "watch": "npm run build && concurrently -k 'npm run build:watch' 'npm run start'"
   },
@@ -30,6 +30,7 @@
   "devDependencies": {
     "awesome-typescript-loader": "^3.4.1",
     "concurrently": "^3.5.1",
+    "shx": "^0.2.2",
     "source-map-loader": "^0.2.3",
     "tslint": "^5.9.1",
     "tslint-react": "^3.4.0",
