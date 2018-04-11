@@ -1,15 +1,13 @@
 import { mapValues } from 'lodash'
 
 export function fromLocalStorage<T extends object>(object: T): T {
-  return mapValues(object, keyFromLocalStorage)
-}
-
-function keyFromLocalStorage<T>(or: T, key: string): T {
-  let value = localStorage.getItem(key)
-  if (value !== null) {
-    return JSON.parse(value)
-  }
-  return or
+  return mapValues(object, function<S>(or: S, key: string) {
+    let value = localStorage.getItem(key)
+    if (value !== null) {
+      return JSON.parse(value)
+    }
+    return or
+  })
 }
 
 export function pluralize(count: number, word: string) {
