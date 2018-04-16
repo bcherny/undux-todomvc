@@ -11,7 +11,7 @@ type Props = {
   onToggle(todo: Todo, isCompleted: boolean): void
 }
 
-export let TodoItem = withStore('editingTodo', 'editingTodoNewTitle')(
+export let TodoItem = withStore(
   class TodoItem extends React.Component<StoreProps & Props> {
 
     onEdit = () => {

@@ -10,7 +10,7 @@ type Props = {
   onToggle(todo: Todo, isCompleted: boolean): void
 }
 
-export let TodoList = withStore('editingTodo', 'route', 'todos')<Props>(({
+export let TodoList = withStore<Props>(({
   onDestroy, onSave, onToggle, store
 }) =>
   <ul className='todo-list'>

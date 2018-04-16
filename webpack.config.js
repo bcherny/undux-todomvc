@@ -3,6 +3,7 @@ let { resolve } = require('path')
 let DIST = resolve(__dirname, './dist')
 
 module.exports = {
+  mode: 'development',
   devtool: 'source-map',
   devServer: {
     contentBase: DIST,

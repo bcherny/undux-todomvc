@@ -1,6 +1,7 @@
-import { Store } from './store'
+import { Plugin } from 'undux'
+import { State } from './store'
 
-export function withEffects(store: Store): Store {
+export let withEffects: Plugin<State> = store => {
 
   // localStorage
   store.beforeAll().subscribe(({ key, value }) =>

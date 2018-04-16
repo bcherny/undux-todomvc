@@ -7,7 +7,7 @@ type Props = {
   onChange(status: TodoStatus): void
 }
 
-export let ToggleAll = withStore('todos')<Props>(({ onChange, store }) => {
+export let ToggleAll = withStore<Props>(({ onChange, store }) => {
 
   let allTodos = store.get('todos')
   let activeCount = sum(allTodos.filter(_ => _.status === 'active'))

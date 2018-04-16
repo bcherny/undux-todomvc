@@ -3,7 +3,7 @@ import { ENTER } from '../constants/KEYCODES'
 import { StoreProps, withStore } from '../store'
 import { Input } from './Input'
 
-export let AddTodoItem = withStore('addTodoTitle')(class extends React.Component<StoreProps> {
+export let AddTodoItem = withStore(class extends React.Component<StoreProps> {
 
   render() {
     return <Input

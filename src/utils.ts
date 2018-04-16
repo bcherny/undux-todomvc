@@ -1,7 +1,7 @@
 import { mapValues } from 'lodash'
 
 export function fromLocalStorage<T extends object>(object: T): T {
-  return mapValues(object, keyFromLocalStorage)
+  return mapValues(object, keyFromLocalStorage) as any
 }
 
 function keyFromLocalStorage<T>(or: T, key: string): T {

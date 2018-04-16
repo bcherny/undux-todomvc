@@ -8,7 +8,7 @@ import { TodoFooter } from './Footer'
 import { TodoList } from './TodoList'
 import { ToggleAll } from './ToggleAll'
 
-export let App = withStore()(class extends React.Component<StoreProps> {
+export let App = withStore(class extends React.Component<StoreProps> {
 
   render() {
     return <React.Fragment>
