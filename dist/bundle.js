@@ -64734,10 +64734,7 @@ var initialState = utils_1.fromLocalStorage({
     editingTodo: null,
     editingTodoNewTitle: null,
     route: '/all',
-    todos: [],
-    get todoCount() {
-        return store.get('todos').length;
-    }
+    todos: []
 });
 var store = effects_1.withEffects(undux_1.withLogger(undux_1.createStore(initialState)));
 exports.withStore = undux_1.connect(store);
