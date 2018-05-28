@@ -4,7 +4,7 @@ import { State } from './store'
 export let withEffects: Plugin<State> = store => {
 
   // localStorage
-  store.beforeAll().subscribe(({ key, value }) =>
+  store.onAll().subscribe(({ key, value }) =>
     localStorage.setItem(key, JSON.stringify(value))
   )
 
