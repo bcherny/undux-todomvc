@@ -1,6 +1,6 @@
 {
   "name": "undux-todomvc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TodoMVC for Undux",
   "main": "src/index.tsx",
   "repository": "git@github.com:bcherny/undux-todomvc.git",
