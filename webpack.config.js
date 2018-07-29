@@ -2,10 +2,13 @@ let {
   resolve
 } = require('path')
 let UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+let rxPaths = require('rxjs/_esm5/path-mapping')
+let webpack = require('webpack')
 
 let DIST = resolve(__dirname, './dist')
 
 let config = {
+
   mode: 'development',
   devtool: 'source-map',
   devServer: {
@@ -24,8 +27,13 @@ let config = {
     filename: 'bundle.js',
     path: DIST
   },
+  plugins: [
+    new webpack.optimize.ModuleConcatenationPlugin()
+  ],
   resolve: {
-    extensions: ['.ts', '.tsx', '.js']
+    extensions: ['.ts', '.tsx', '.js'],
+    // Use the "alias" key to resolve to an ESM distribution
+    alias: rxPaths()
   },
   module: {
     rules: [{
