@@ -1,5 +1,5 @@
-import { sum } from 'lodash'
-import * as React from 'react'
+import sum from 'lodash/sum'
+import React from 'react'
 import { TodoStatus } from '../datatypes'
 import Store, { StoreProps } from '../store'
 

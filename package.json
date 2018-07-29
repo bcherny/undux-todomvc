@@ -8,6 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "npm run clean && webpack && npm run copy",
+    "build:prod": "npm run clean && webpack -p && npm run copy",
     "build:watch": "webpack -w",
     "clean": "shx rm -rf dist",
     "copy": "shx cp src/index.html dist/index.html && shx cp node_modules/todomvc-common/base.css dist/base.css && shx cp node_modules/todomvc-app-css/index.css dist/index.css && shx cp node_modules/todomvc-common/base.js dist/base.js",

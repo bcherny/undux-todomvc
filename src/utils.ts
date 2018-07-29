@@ -1,4 +1,4 @@
-import { mapValues } from 'lodash'
+import mapValues from 'lodash/mapValues'
 
 export function fromLocalStorage<T extends object>(object: T): T {
   return mapValues(object, keyFromLocalStorage) as any

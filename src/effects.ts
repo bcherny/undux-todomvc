@@ -12,4 +12,6 @@ export let withEffects: Effect<State> = store => {
   store.on('route').subscribe(route =>
     window.location.hash = route
   )
+
+  return store
 }

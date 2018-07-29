@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { ENTER, ESCAPE } from '../constants/KEYCODES'
 import { Todo } from '../datatypes'
 import Store, { StoreProps } from '../store'

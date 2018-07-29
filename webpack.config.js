@@ -13,6 +13,10 @@ module.exports = {
     disableHostCheck: true
   },
   entry: './src/index.tsx',
+  externals: {
+    'react': 'React',
+    'react-dom': 'ReactDOM'
+  },
   output: {
     filename: 'bundle.js',
     path: DIST

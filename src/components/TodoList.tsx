@@ -1,5 +1,5 @@
-import * as classnames from 'classnames'
-import * as React from 'react'
+import classnames from 'classnames'
+import React from 'react'
 import { Route, Todo } from '../datatypes'
 import Store, { StoreProps } from '../store'
 import TodoItem from './TodoItem'

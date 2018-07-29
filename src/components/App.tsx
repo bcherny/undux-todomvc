@@ -1,5 +1,5 @@
-import { without } from 'lodash'
-import * as React from 'react'
+import without from 'lodash/without'
+import React from 'react'
 import { Todo, TodoStatus } from '../datatypes'
 import Store, { StoreProps } from '../store'
 import { replace } from '../utils'
