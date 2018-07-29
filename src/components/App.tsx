@@ -1,17 +1,17 @@
 import { without } from 'lodash'
 import * as React from 'react'
 import { Todo, TodoStatus } from '../datatypes'
-import { StoreProps, withStore } from '../store'
+import Store, { StoreProps } from '../store'
 import { replace } from '../utils'
-import { AddTodoItem } from './AddTodoItem'
-import { TodoFooter } from './Footer'
-import { TodoList } from './TodoList'
-import { ToggleAll } from './ToggleAll'
+import AddTodoItem from './AddTodoItem'
+import TodoFooter from './Footer'
+import TodoList from './TodoList'
+import ToggleAll from './ToggleAll'
 
-export let App = withStore(class extends React.Component<StoreProps> {
+class App extends React.Component<StoreProps> {
 
   render() {
-    return <React.Fragment>
+    return <>
       <header className='header'>
         <h1>todos</h1>
         <AddTodoItem />
@@ -25,7 +25,7 @@ export let App = withStore(class extends React.Component<StoreProps> {
         />
       </section>
       <TodoFooter />
-    </React.Fragment>
+    </>
   }
 
   onDestroy = (todo: Todo) => {
@@ -47,10 +47,13 @@ export let App = withStore(class extends React.Component<StoreProps> {
   }
 
   onSave = (todo: Todo, title: string) => {
-    this.props.store.set('todos')(
-      replace(this.props.store.get('todos'), todo, { ...todo, title })
+    let {store} = this.props
+    store.set('todos')(
+      replace(store.get('todos'), todo, { ...todo, title })
     )
-    this.props.store.set('editingTodo')(null)
+    store.set('editingTodo')(null)
   }
 
-})
+}
+
+export default Store.withStore(App)

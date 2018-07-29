@@ -37990,7 +37990,7 @@ var Scheduler = /*@__PURE__*/ (function () {
         }
         return new this.SchedulerAction(this, work).schedule(state, delay);
     };
-    Scheduler.now = Date.now ? Date.now : function () { return +new Date(); };
+    Scheduler.now = function () { return Date.now(); };
     return Scheduler;
 }());
 
@@ -42884,9 +42884,12 @@ and limitations under the License.
 ***************************************************************************** */
 /* global Reflect, Promise */
 
-var extendStatics = Object.setPrototypeOf ||
-    ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-    function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return extendStatics(d, b);
+};
 
 function __extends(d, b) {
     extendStatics(d, b);
@@ -42894,12 +42897,15 @@ function __extends(d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
 
-var __assign = Object.assign || function __assign(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
     }
-    return t;
+    return __assign.apply(this, arguments);
 }
 
 function __rest(s, e) {
@@ -43200,12 +43206,6 @@ var StoreSnapshot = /** @class */ (function () {
     StoreSnapshot.prototype.set = function (key) {
         return this.storeDefinition.set(key);
     };
-    StoreSnapshot.prototype.on = function (key) {
-        return this.storeDefinition.on(key);
-    };
-    StoreSnapshot.prototype.onAll = function () {
-        return this.storeDefinition.onAll();
-    };
     StoreSnapshot.prototype.getState = function () {
         return Object.freeze(this.state);
     };
@@ -43271,7 +43271,7 @@ function createStore(initialState, options) {
 exports.createStore = createStore;
 __export(__webpack_require__(/*! ./plugins/withLogger */ "./node_modules/undux/dist/src/plugins/withLogger.js"));
 __export(__webpack_require__(/*! ./plugins/withReduxDevtools */ "./node_modules/undux/dist/src/plugins/withReduxDevtools.js"));
-__export(__webpack_require__(/*! ./react */ "./node_modules/undux/dist/src/react.js"));
+__export(__webpack_require__(/*! ./react */ "./node_modules/undux/dist/src/react/index.js"));
 
 
 /***/ }),
@@ -43358,10 +43358,10 @@ exports.withReduxDevtools = withReduxDevtools;
 
 /***/ }),
 
-/***/ "./node_modules/undux/dist/src/react.js":
-/*!**********************************************!*\
-  !*** ./node_modules/undux/dist/src/react.js ***!
-  \**********************************************/
+/***/ "./node_modules/undux/dist/src/react/connect.js":
+/*!******************************************************!*\
+  !*** ./node_modules/undux/dist/src/react/connect.js ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -43387,7 +43387,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var utils_1 = __webpack_require__(/*! ./utils */ "./node_modules/undux/dist/src/utils.js");
+var utils_1 = __webpack_require__(/*! ../utils */ "./node_modules/undux/dist/src/utils.js");
 function connect(store) {
     return function (Component) {
         var _a;
@@ -43425,12 +43425,46 @@ function connect(store) {
     };
 }
 exports.connect = connect;
+
+
+/***/ }),
+
+/***/ "./node_modules/undux/dist/src/react/connectAs.js":
+/*!********************************************************!*\
+  !*** ./node_modules/undux/dist/src/react/connectAs.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var utils_1 = __webpack_require__(/*! ../utils */ "./node_modules/undux/dist/src/utils.js");
 function connectAs(stores) {
     return function (Component) {
         var _a;
         return _a = /** @class */ (function (_super) {
-                __extends(class_2, _super);
-                function class_2() {
+                __extends(class_1, _super);
+                function class_1() {
                     var _this = _super !== null && _super.apply(this, arguments) || this;
                     _this.state = {
                         stores: utils_1.mapValues(stores, function (_) {
@@ -43451,24 +43485,245 @@ function connectAs(stores) {
                     };
                     return _this;
                 }
-                class_2.prototype.componentWillUnmount = function () {
+                class_1.prototype.componentWillUnmount = function () {
                     this.state.subscriptions.forEach(function (_) { return _.unsubscribe(); });
                 };
-                class_2.prototype.shouldComponentUpdate = function (props, state) {
+                class_1.prototype.shouldComponentUpdate = function (props, state) {
                     var _this = this;
                     return utils_1.some(state.stores, function (s, k) { return s !== _this.state.stores[k]; })
                         || Object.keys(props).some(function (_) { return props[_] !== _this.props[_]; });
                 };
-                class_2.prototype.render = function () {
+                class_1.prototype.render = function () {
                     return React.createElement(Component, __assign({}, this.props, this.state.stores));
                 };
-                return class_2;
+                return class_1;
             }(React.Component)),
             _a.displayName = "withStore(" + utils_1.getDisplayName(Component) + ")",
             _a;
     };
 }
 exports.connectAs = connectAs;
+
+
+/***/ }),
+
+/***/ "./node_modules/undux/dist/src/react/connectToTree.js":
+/*!************************************************************!*\
+  !*** ./node_modules/undux/dist/src/react/connectToTree.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var __1 = __webpack_require__(/*! .. */ "./node_modules/undux/dist/src/index.js");
+var utils_1 = __webpack_require__(/*! ../utils */ "./node_modules/undux/dist/src/utils.js");
+function connectToTree(initialState, effects) {
+    var Context = React.createContext({ __MISSING_PROVIDER__: true });
+    var Container = /** @class */ (function (_super) {
+        __extends(Container, _super);
+        function Container(props) {
+            var _this = _super.call(this, props) || this;
+            // Create store definition from initial state
+            var state = props.initialState || initialState;
+            var storeDefinition = __1.createStore(state);
+            // Apply effects?
+            var fx = props.effects || effects;
+            if (fx) {
+                fx(storeDefinition);
+            }
+            _this.state = {
+                storeDefinition: storeDefinition,
+                storeSnapshot: storeDefinition.getCurrentSnapshot(),
+                subscription: storeDefinition.onAll().subscribe(function () {
+                    return _this.setState({ storeSnapshot: storeDefinition.getCurrentSnapshot() });
+                })
+            };
+            return _this;
+        }
+        Container.prototype.componentWillUnmount = function () {
+            this.state.subscription.unsubscribe();
+            // Let the state get GC'd.
+            // TODO: Find a more elegant way to do this.
+            this.state.storeSnapshot.state = null;
+            this.state.storeSnapshot.storeDefinition = null;
+            this.state.storeDefinition.storeSnapshot = null;
+        };
+        Container.prototype.render = function () {
+            return React.createElement(Context.Provider, { value: this.state.storeSnapshot }, this.props.children);
+        };
+        return Container;
+    }(React.Component));
+    var Consumer = function (props) {
+        return React.createElement(Context.Consumer, null, function (store) {
+            if (!isInitialized(store)) {
+                throw Error("Component \"" + props.displayName + "\" is not nested in a <Container>. To fix this error, be sure to render the component in a <Container>...</Container> tag.");
+            }
+            return props.children(store);
+        });
+    };
+    function withStore(Component) {
+        var displayName = utils_1.getDisplayName(Component);
+        var f = function (props) {
+            return React.createElement(Consumer, { displayName: displayName }, function (store) { return React.createElement(Component, __assign({ store: store }, props)); });
+        };
+        f.displayName = "withStore(" + displayName + ")";
+        return f;
+    }
+    return {
+        Container: Container,
+        withStore: withStore
+    };
+}
+exports.connectToTree = connectToTree;
+function isInitialized(store) {
+    return !('__MISSING_PROVIDER__' in store);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/undux/dist/src/react/connectToTreeAs.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/undux/dist/src/react/connectToTreeAs.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var __1 = __webpack_require__(/*! .. */ "./node_modules/undux/dist/src/index.js");
+var utils_1 = __webpack_require__(/*! ../utils */ "./node_modules/undux/dist/src/utils.js");
+function connectToTreeAs(initialStates, effects) {
+    var Context = React.createContext({ __MISSING_PROVIDER__: true });
+    var Container = /** @class */ (function (_super) {
+        __extends(Container, _super);
+        function Container(props) {
+            var _this = _super.call(this, props) || this;
+            // Create store definition from initial state
+            var states = props.initialStates || initialStates;
+            var stores = utils_1.mapValues(states, function (_) { return __1.createStore(_); });
+            // Apply effects?
+            var fx = props.effects || effects;
+            if (fx) {
+                fx(stores);
+            }
+            _this.state = {
+                storeDefinitions: stores,
+                storeSnapshots: utils_1.mapValues(stores, function (_) { return _.getCurrentSnapshot(); }),
+                subscriptions: utils_1.mapValues(stores, function (_, k) { return _.onAll().subscribe(function () {
+                    var _a;
+                    return _this.setState({
+                        storeSnapshots: Object.assign({}, _this.state.storeSnapshots, (_a = {}, _a[k] = _.getCurrentSnapshot(), _a))
+                    });
+                }); })
+            };
+            return _this;
+        }
+        Container.prototype.componentWillUnmount = function () {
+            utils_1.mapValues(this.state.subscriptions, function (_) { return _.unsubscribe(); });
+            // Let the state get GC'd.
+            // TODO: Find a more elegant way to do this.
+            if (this.state.storeSnapshots) { }
+            utils_1.mapValues(this.state.storeSnapshots, function (_) { return _.state = null; });
+            utils_1.mapValues(this.state.storeSnapshots, function (_) { return _.storeDefinition = null; });
+            utils_1.mapValues(this.state.storeDefinitions, function (_) { return _.storeSnapshot = null; });
+        };
+        Container.prototype.render = function () {
+            return React.createElement(Context.Provider, { value: this.state.storeSnapshots }, this.props.children);
+        };
+        return Container;
+    }(React.Component));
+    var Consumer = function (props) {
+        return React.createElement(Context.Consumer, null, function (stores) {
+            utils_1.mapValues(stores, function (store) {
+                if (!isInitialized(store)) {
+                    throw Error("Component \"" + props.displayName + "\" is not nested in a <Container>. To fix this error, be sure to render the component in a <Container>...</Container> tag.");
+                }
+            });
+            return props.children(stores);
+        });
+    };
+    function withStores(Component) {
+        var displayName = utils_1.getDisplayName(Component);
+        var f = function (props) {
+            return React.createElement(Consumer, { displayName: displayName }, function (stores) { return React.createElement(Component, __assign({}, stores, props)); });
+        };
+        f.displayName = "withStores(" + displayName + ")";
+        return f;
+    }
+    return {
+        Container: Container,
+        initialStates: initialStates,
+        withStores: withStores
+    };
+}
+exports.connectToTreeAs = connectToTreeAs;
+function isInitialized(store) {
+    return !('__MISSING_PROVIDER__' in store);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/undux/dist/src/react/index.js":
+/*!****************************************************!*\
+  !*** ./node_modules/undux/dist/src/react/index.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var connect_1 = __webpack_require__(/*! ./connect */ "./node_modules/undux/dist/src/react/connect.js");
+exports.connect = connect_1.connect;
+var connectAs_1 = __webpack_require__(/*! ./connectAs */ "./node_modules/undux/dist/src/react/connectAs.js");
+exports.connectAs = connectAs_1.connectAs;
+var connectToTree_1 = __webpack_require__(/*! ./connectToTree */ "./node_modules/undux/dist/src/react/connectToTree.js");
+exports.connectToTree = connectToTree_1.connectToTree;
+var connectToTreeAs_1 = __webpack_require__(/*! ./connectToTreeAs */ "./node_modules/undux/dist/src/react/connectToTreeAs.js");
+exports.connectToTreeAs = connectToTreeAs_1.connectToTreeAs;
 
 
 /***/ }),
@@ -43614,9 +43869,9 @@ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var KEYCODES_1 = __webpack_require__(/*! ../constants/KEYCODES */ "./src/constants/KEYCODES.ts");
 var store_1 = __webpack_require__(/*! ../store */ "./src/store.ts");
 var Input_1 = __webpack_require__(/*! ./Input */ "./src/components/Input.tsx");
-exports.AddTodoItem = store_1.withStore(/** @class */ (function (_super) {
-    __extends(class_1, _super);
-    function class_1() {
+var AddTodoItem = /** @class */ (function (_super) {
+    __extends(AddTodoItem, _super);
+    function AddTodoItem() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.onKeyDown = function (keyCode) {
             var store = _this.props.store;
@@ -43633,11 +43888,12 @@ exports.AddTodoItem = store_1.withStore(/** @class */ (function (_super) {
         };
         return _this;
     }
-    class_1.prototype.render = function () {
+    AddTodoItem.prototype.render = function () {
         return React.createElement(Input_1.Input, { autoFocus: true, className: 'new-todo', onChange: this.props.store.set('addTodoTitle'), onKeyDown: this.onKeyDown, placeholder: 'What needs to be done?', value: this.props.store.get('addTodoTitle') });
     };
-    return class_1;
-}(React.Component)));
+    return AddTodoItem;
+}(React.Component));
+exports.default = store_1.default.withStore(AddTodoItem);
 
 
 /***/ }),
@@ -43678,9 +43934,9 @@ var AddTodoItem_1 = __webpack_require__(/*! ./AddTodoItem */ "./src/components/A
 var Footer_1 = __webpack_require__(/*! ./Footer */ "./src/components/Footer.tsx");
 var TodoList_1 = __webpack_require__(/*! ./TodoList */ "./src/components/TodoList.tsx");
 var ToggleAll_1 = __webpack_require__(/*! ./ToggleAll */ "./src/components/ToggleAll.tsx");
-exports.App = store_1.withStore(/** @class */ (function (_super) {
-    __extends(class_1, _super);
-    function class_1() {
+var App = /** @class */ (function (_super) {
+    __extends(App, _super);
+    function App() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.onDestroy = function (todo) {
             _this.props.store.set('todos')(lodash_1.without(_this.props.store.get('todos'), todo));
@@ -43693,23 +43949,25 @@ exports.App = store_1.withStore(/** @class */ (function (_super) {
             _this.props.store.set('todos')(utils_1.replace(_this.props.store.get('todos'), todo, __assign({}, todo, { status: status })));
         };
         _this.onSave = function (todo, title) {
-            _this.props.store.set('todos')(utils_1.replace(_this.props.store.get('todos'), todo, __assign({}, todo, { title: title })));
-            _this.props.store.set('editingTodo')(null);
+            var store = _this.props.store;
+            store.set('todos')(utils_1.replace(store.get('todos'), todo, __assign({}, todo, { title: title })));
+            store.set('editingTodo')(null);
         };
         return _this;
     }
-    class_1.prototype.render = function () {
+    App.prototype.render = function () {
         return React.createElement(React.Fragment, null,
             React.createElement("header", { className: 'header' },
                 React.createElement("h1", null, "todos"),
-                React.createElement(AddTodoItem_1.AddTodoItem, null)),
+                React.createElement(AddTodoItem_1.default, null)),
             React.createElement("section", { className: 'main' },
-                React.createElement(ToggleAll_1.ToggleAll, { onChange: this.onToggleAll }),
-                React.createElement(TodoList_1.TodoList, { onDestroy: this.onDestroy, onSave: this.onSave, onToggle: this.onToggle })),
-            React.createElement(Footer_1.TodoFooter, null));
+                React.createElement(ToggleAll_1.default, { onChange: this.onToggleAll }),
+                React.createElement(TodoList_1.default, { onDestroy: this.onDestroy, onSave: this.onSave, onToggle: this.onToggle })),
+            React.createElement(Footer_1.default, null));
     };
-    return class_1;
-}(React.Component)));
+    return App;
+}(React.Component));
+exports.default = store_1.default.withStore(App);
 
 
 /***/ }),
@@ -43742,16 +44000,16 @@ var filters = [
     ['/active', 'Active'],
     ['/completed', 'Completed']
 ];
-exports.TodoFooter = store_1.withStore(/** @class */ (function (_super) {
-    __extends(class_1, _super);
-    function class_1() {
+var Footer = /** @class */ (function (_super) {
+    __extends(Footer, _super);
+    function Footer() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.onClearCompleted = function () {
             return _this.props.store.set('todos')(_this.props.store.get('todos').filter(function (_) { return _.status !== 'completed'; }));
         };
         return _this;
     }
-    class_1.prototype.render = function () {
+    Footer.prototype.render = function () {
         var _this = this;
         var allTodos = this.props.store.get('todos');
         var activeCount = allTodos.filter(function (_) { return _.status === 'active'; }).length;
@@ -43770,8 +44028,9 @@ exports.TodoFooter = store_1.withStore(/** @class */ (function (_super) {
             })),
             shouldShowClearButton && React.createElement("button", { className: 'clear-completed', onClick: this.onClearCompleted }, "Clear completed"));
     };
-    return class_1;
-}(React.Component)));
+    return Footer;
+}(React.Component));
+exports.default = store_1.default.withStore(Footer);
 
 
 /***/ }),
@@ -43819,7 +44078,7 @@ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var KEYCODES_1 = __webpack_require__(/*! ../constants/KEYCODES */ "./src/constants/KEYCODES.ts");
 var store_1 = __webpack_require__(/*! ../store */ "./src/store.ts");
 var Input_1 = __webpack_require__(/*! ./Input */ "./src/components/Input.tsx");
-exports.TodoItem = store_1.withStore(/** @class */ (function (_super) {
+var TodoItem = /** @class */ (function (_super) {
     __extends(TodoItem, _super);
     function TodoItem() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
@@ -43863,7 +44122,8 @@ exports.TodoItem = store_1.withStore(/** @class */ (function (_super) {
             React.createElement("button", { className: 'destroy', onClick: function () { return _this.props.onDestroy(_this.props.todo); } }));
     };
     return TodoItem;
-}(React.Component)));
+}(React.Component));
+exports.default = store_1.default.withStore(TodoItem);
 
 
 /***/ }),
@@ -43882,7 +44142,7 @@ var classnames = __webpack_require__(/*! classnames */ "./node_modules/classname
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var store_1 = __webpack_require__(/*! ../store */ "./src/store.ts");
 var TodoItem_1 = __webpack_require__(/*! ./TodoItem */ "./src/components/TodoItem.tsx");
-exports.TodoList = store_1.withStore(function (_a) {
+var TodoList = function (_a) {
     var onDestroy = _a.onDestroy, onSave = _a.onSave, onToggle = _a.onToggle, store = _a.store;
     return React.createElement("ul", { className: 'todo-list' }, store
         .get('todos')
@@ -43892,9 +44152,10 @@ exports.TodoList = store_1.withStore(function (_a) {
                 completed: todo.status === 'completed',
                 editing: todo === store.get('editingTodo')
             }), key: index },
-            React.createElement(TodoItem_1.TodoItem, { todo: todo, onToggle: onToggle, onDestroy: onDestroy, onSave: onSave }));
+            React.createElement(TodoItem_1.default, { todo: todo, onToggle: onToggle, onDestroy: onDestroy, onSave: onSave }));
     }));
-});
+};
+exports.default = store_1.default.withStore(TodoList);
 function byRoute(route) {
     return function (todo) {
         switch (route) {
@@ -43921,12 +44182,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var store_1 = __webpack_require__(/*! ../store */ "./src/store.ts");
-exports.ToggleAll = store_1.withStore(function (_a) {
+var ToggleAll = function (_a) {
     var onChange = _a.onChange, store = _a.store;
     var allTodos = store.get('todos');
     var activeCount = lodash_1.sum(allTodos.filter(function (_) { return _.status === 'active'; }));
     return React.createElement("input", { className: 'toggle-all', type: 'checkbox', onChange: function (e) { return onChange(e.currentTarget.checked ? 'completed' : 'active'); }, checked: activeCount === 0 });
-});
+};
+exports.default = store_1.default.withStore(ToggleAll);
 
 
 /***/ }),
@@ -43967,7 +44229,6 @@ exports.withEffects = function (store) {
     store.on('route').subscribe(function (route) {
         return window.location.hash = route;
     });
-    return store;
 };
 
 
@@ -43985,8 +44246,12 @@ exports.withEffects = function (store) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var react_dom_1 = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+var undux_1 = __webpack_require__(/*! undux */ "./node_modules/undux/dist/src/index.js");
 var App_1 = __webpack_require__(/*! ./components/App */ "./src/components/App.tsx");
-react_dom_1.render(React.createElement(App_1.App, null), document.getElementsByClassName('todoapp')[0]);
+var effects_1 = __webpack_require__(/*! ./effects */ "./src/effects.ts");
+var store_1 = __webpack_require__(/*! ./store */ "./src/store.ts");
+react_dom_1.render(React.createElement(store_1.default.Container, { effects: function (_) { return effects_1.withEffects(undux_1.withLogger(_)); } },
+    React.createElement(App_1.default, null)), document.getElementsByClassName('todoapp')[0]);
 
 
 /***/ }),
@@ -44002,7 +44267,6 @@ react_dom_1.render(React.createElement(App_1.App, null), document.getElementsByC
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var undux_1 = __webpack_require__(/*! undux */ "./node_modules/undux/dist/src/index.js");
-var effects_1 = __webpack_require__(/*! ./effects */ "./src/effects.ts");
 var utils_1 = __webpack_require__(/*! ./utils */ "./src/utils.ts");
 var initialState = utils_1.fromLocalStorage({
     addTodoTitle: '',
@@ -44011,8 +44275,7 @@ var initialState = utils_1.fromLocalStorage({
     route: '/all',
     todos: []
 });
-var store = effects_1.withEffects(undux_1.withLogger(undux_1.createStore(initialState)));
-exports.withStore = undux_1.connect(store);
+exports.default = undux_1.connectToTree(initialState);
 
 
 /***/ }),

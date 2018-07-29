@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Route } from '../datatypes'
-import { StoreProps, withStore } from '../store'
+import Store, { StoreProps } from '../store'
 import { pluralize } from '../utils'
 
 let filters: [Route, string][] = [
@@ -9,7 +9,7 @@ let filters: [Route, string][] = [
   ['/completed', 'Completed']
 ]
 
-export let TodoFooter = withStore(class extends React.Component<StoreProps> {
+class Footer extends React.Component<StoreProps> {
   render() {
 
     let allTodos = this.props.store.get('todos')
@@ -43,4 +43,6 @@ export let TodoFooter = withStore(class extends React.Component<StoreProps> {
     this.props.store.set('todos')(
       this.props.store.get('todos').filter(_ => _.status !== 'completed')
     )
-})
+}
+
+export default Store.withStore(Footer)

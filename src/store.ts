@@ -1,6 +1,5 @@
-import { connect, createStore, Store, withLogger } from 'undux'
+import { connectToTree, Store } from 'undux'
 import { Route, Todo } from './datatypes'
-import { withEffects } from './effects'
 import { fromLocalStorage } from './utils'
 
 export type State = {
@@ -19,12 +18,8 @@ let initialState = fromLocalStorage<State>({
   todos: []
 })
 
-let store = withEffects(withLogger(
-  createStore(initialState)
-))
+export default connectToTree(initialState)
 
 export type StoreProps = {
   store: Store<State>
 }
-
-export let withStore = connect(store)

@@ -1,13 +1,13 @@
 import { sum } from 'lodash'
 import * as React from 'react'
 import { TodoStatus } from '../datatypes'
-import { withStore } from '../store'
+import Store, { StoreProps } from '../store'
 
-type Props = {
+type Props = StoreProps & {
   onChange(status: TodoStatus): void
 }
 
-export let ToggleAll = withStore<Props>(({ onChange, store }) => {
+let ToggleAll: React.StatelessComponent<Props> = ({ onChange, store }) => {
 
   let allTodos = store.get('todos')
   let activeCount = sum(allTodos.filter(_ => _.status === 'active'))
@@ -19,4 +19,6 @@ export let ToggleAll = withStore<Props>(({ onChange, store }) => {
     checked={activeCount === 0}
   />
 
-})
+}
+
+export default Store.withStore(ToggleAll)

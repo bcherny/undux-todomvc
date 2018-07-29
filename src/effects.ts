@@ -1,7 +1,7 @@
-import { Plugin } from 'undux'
+import { Effect } from 'undux'
 import { State } from './store'
 
-export let withEffects: Plugin<State> = store => {
+export let withEffects: Effect<State> = store => {
 
   // localStorage
   store.onAll().subscribe(({ key, value }) =>
@@ -12,6 +12,4 @@ export let withEffects: Plugin<State> = store => {
   store.on('route').subscribe(route =>
     window.location.hash = route
   )
-
-  return store
 }

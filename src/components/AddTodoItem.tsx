@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { ENTER } from '../constants/KEYCODES'
-import { StoreProps, withStore } from '../store'
+import Store, { StoreProps } from '../store'
 import { Input } from './Input'
 
-export let AddTodoItem = withStore(class extends React.Component<StoreProps> {
+class AddTodoItem extends React.Component<StoreProps> {
 
   render() {
     return <Input
@@ -30,5 +30,6 @@ export let AddTodoItem = withStore(class extends React.Component<StoreProps> {
         }
     }
   }
+}
 
-})
+export default Store.withStore(AddTodoItem)

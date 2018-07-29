@@ -1,16 +1,16 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
 import { Route, Todo } from '../datatypes'
-import { withStore } from '../store'
-import { TodoItem } from './TodoItem'
+import Store, { StoreProps } from '../store'
+import TodoItem from './TodoItem'
 
-type Props = {
+type Props = StoreProps & {
   onDestroy(todo: Todo): void
   onSave(todo: Todo, title: string): void
   onToggle(todo: Todo, isCompleted: boolean): void
 }
 
-export let TodoList = withStore<Props>(({
+let TodoList: React.StatelessComponent<Props> = ({
   onDestroy, onSave, onToggle, store
 }) =>
   <ul className='todo-list'>
@@ -35,7 +35,8 @@ export let TodoList = withStore<Props>(({
       )
     }
   </ul>
-)
+
+export default Store.withStore(TodoList)
 
 function byRoute(route: Route) {
   return (todo: Todo): boolean => {
